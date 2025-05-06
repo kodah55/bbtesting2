@@ -1,8 +1,36 @@
 
 <!DOCTYPE html>
 <html>
+<head>
+    <title>OAuth Redirect</title>
+</head>
 <body>
-  <h1>Hello World</h1>
-  <p>I'm hosted with GitHub Pages.</p>
+    <h1>OAuth Redirect Handler</h1>
+    <p id="message">Processing...</p>
+    <script>
+        // Function to parse URL parameters
+        function getQueryParams() {
+            const params = {};
+            const queryString = window.location.search.substring(1);
+            const regex = /([^&=]+)=([^&]*)/g;
+            let m;
+            while (m = regex.exec(queryString)) {
+                params[decodeURIComponent(m)] = decodeURIComponent(m);
+            }
+            return params;
+        }
+
+        // Extract the authorization code from the URL
+        const params = getQueryParams();
+        const authorizationCode = params['code'];
+        const messageElement = document.getElementById('message');
+
+        if (authorizationCode) {
+            messageElement.textContent = 'Authorization successful! Code: ' + authorizationCode;
+            // You can now send the authorization code to your server to exchange it for an access token
+        } else {
+            messageElement.textContent = 'Authorization failed or no code found.';
+        }
+    </script>
 </body>
 </html>
